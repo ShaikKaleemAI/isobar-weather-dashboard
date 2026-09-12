@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Isobar — Weather Instrument Dashboard</title>
+<meta name="description" content="A real-time weather instrument panel. Track live conditions and 5-day forecasts for multiple saved locations." />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='42' fill='%23101826' stroke='%23E8A33D' stroke-width='6'/%3E%3Cline x1='50' y1='50' x2='50' y2='18' stroke='%23E8A33D' stroke-width='5' stroke-linecap='round'/%3E%3Cline x1='50' y1='50' x2='70' y2='60' stroke='%23E8A33D' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="styles.css?v=7" />
+</head>
+<body>
+
+<div class="sky-canvas" id="skyCanvas" aria-hidden="true">
+  <div class="sky-layer sky-gradient" id="skyGradient"></div>
+  <div class="sky-layer sky-stars" id="skyStars"></div>
+  <div class="sky-layer sky-clouds" id="skyClouds"></div>
+  <div class="sky-layer sky-precip" id="skyPrecip"></div>
+  <div class="sky-layer sky-flash" id="skyFlash"></div>
+  <div class="sky-vignette"></div>
+</div>
+
+<div class="grain" aria-hidden="true"></div>
+<div id="searchScrim" class="search-scrim" hidden></div>
+
+<header class="topbar" id="topbar">
+  <div class="brand">
+    <svg width="26" height="26" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+      <circle cx="50" cy="50" r="42" stroke="currentColor" stroke-width="6"/>
+      <line x1="50" y1="50" x2="50" y2="18" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
+      <line x1="50" y1="50" x2="70" y2="60" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
+    </svg>
+    <span class="brand-name">Isobar</span>
+    <span class="brand-tag">weather instrument</span>
+  </div>
+  <form id="searchForm" class="search-form" role="search" autocomplete="off">
+    <div class="search-input-wrap" id="searchInputWrap">
+      <input
+        id="searchInput"
+        class="search-input"
+        type="text"
+        name="city"
+        placeholder="Add a station — try “Hyderabad”"
+        aria-label="Search for a city to track"
+        role="combobox"
+        aria-expanded="false"
+        aria-controls="searchResults"
+        aria-autocomplete="list"
+      />
+    </div>
+    <button type="button" class="geo-btn" id="geoBtn" aria-label="Use my current location" title="Use my current location">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>
+    </button>
+    <button type="submit" class="search-btn" aria-label="Search">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><line x1="21" y1="21" x2="16.65" y2="16.65" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+    <div id="searchResults" class="search-results" role="listbox" aria-label="City suggestions" hidden></div>
+  </form>
+  <button type="button" class="unit-toggle" id="unitToggle" aria-label="Switch to Fahrenheit">°C</button>
+</header>
+
+<main class="deck">
+
+  <section class="stations" aria-label="Saved stations">
+    <div id="stationRow" class="station-row" role="tablist" aria-label="Saved stations"></div>
+  </section>
+
+  <section class="hero" aria-live="polite">
+    <div id="heroContent"></div>
+  </section>
+
+  <section class="readouts" aria-label="Current conditions detail">
+    <div id="readoutGrid" class="readout-grid"></div>
+    <div id="pressureGauge" class="pressure-gauge" aria-label="Barometric pressure"></div>
+  </section>
+
+  <section class="hourly" aria-label="24 hour forecast">
+    <div class="hourly-head">
+      <h2>Next 24 hours</h2>
+    </div>
+    <div id="hourlyStrip" class="hourly-strip"></div>
+  </section>
+
+  <section class="forecast" aria-label="5-day forecast">
+    <div class="forecast-head">
+      <h2>Barograph — 5 day trace</h2>
+      <span class="forecast-sub">High / low temperature, traced like a pressure chart</span>
+    </div>
+    <div id="forecastChart" class="forecast-chart"></div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <span>Data from Open‑Meteo — no key, no tracking.</span>
+  <span id="clock" class="clock"></span>
+</footer>
+
+<div id="toast" class="toast" role="status" aria-live="assertive" hidden></div>
+
+<script type="module" src="js/app.js?v=7"></script>
+</body>
+</html>
