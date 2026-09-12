@@ -1,5 +1,7 @@
 # Isobar — a weather dashboard built like a physical instrument
 
+**Live demo:** [my-weather-dashboard-tool.netlify.app](https://my-weather-dashboard-tool.netlify.app/)
+
 **Stack:** Vanilla JS (ES modules), CSS, SVG. No framework, no build step, no API key.
 
 Isobar is a weather dashboard that rejects the "card full of icons" template.
